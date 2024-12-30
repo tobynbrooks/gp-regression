@@ -78,25 +78,56 @@ slope = model.params['Variable']
 # 📝 Display Regression Metrics in Cards
 st.write("#### 📑 Key Regression Metrics:")
 
+# 🛈 Add a Pop-Up (Expander) for Ideal Targets
+with st.expander("❓ **What do these metrics mean?** Click to learn more"):
+    st.markdown("""
+    **ℹ️ Ideal Targets:**  
+    - **R-Squared:** Closer to **1.0** indicates a better fit.  
+    - **Adjusted R-Squared:** Adjusts for predictor count; closer to **1.0** is better.  
+    - **F-Statistic:** Higher value indicates a better overall model fit.  
+    - **P-Value (F-Stat):** Should be **< 0.05** for statistical significance.  
+    - **Intercept:** Represents the baseline value when predictors are zero.  
+    - **Slope:** Indicates the rate of change in the dependent variable per unit increase in the independent variable.
+    """)
+
+# Display Metrics in Three Columns
 col1, col2, col3 = st.columns(3)
 
 with col1:
     st.metric(label="📈 **R-Squared**", value=f"{r_squared:.3f}")
+    st.caption("Ideal: Closer to 1.0")
+
     st.metric(label="📊 **Adjusted R-Squared**", value=f"{adj_r_squared:.3f}")
+    st.caption("Ideal: Closer to 1.0")
 
 with col2:
     st.metric(label="📊 **F-Statistic**", value=f"{f_statistic:.3f}")
+    st.caption("Higher is better")
+
     st.metric(label="📉 **P-Value (F-Stat)**", value=f"{p_value:.3e}")
+    st.caption("Ideal: < 0.05")
 
 with col3:
     st.metric(label="⚡ **Intercept (const)**", value=f"{intercept:.3f}")
+    st.caption("Baseline value")
+
     st.metric(label="📐 **Slope (Variable)**", value=f"{slope:.3f}")
+    st.caption("Change per unit of Variable")
 
 # 📝 Display Detailed Summary Table
 st.write("#### 📊 Detailed Regression Summary:")
 import statsmodels.iolib.summary2 as sm2
 summary_df = sm2.summary_col([model], stars=True, float_format="%.3f").tables[0]
-st.dataframe(summary_df.style.format("{:.3f}"))
+st.write(summary_df)
+
+
+# Generate Regression Summary Table
+summary_df = sm2.summary_col([model], stars=True, float_format="%.3f").tables[0]
+
+# Display Summary as a Static Table
+
+st.write(summary_df)
+
 # === Visualization ===
 st.write("### 📈 Regression Plot:")
 fig, ax = plt.subplots()
