@@ -121,13 +121,6 @@ summary_df = sm2.summary_col([model], stars=True, float_format="%.3f").tables[0]
 st.write(summary_df)
 
 
-# Generate Regression Summary Table
-summary_df = sm2.summary_col([model], stars=True, float_format="%.3f").tables[0]
-
-# Display Summary as a Static Table
-
-st.write(summary_df)
-
 # === Visualization ===
 st.write("### 📈 Regression Plot:")
 fig, ax = plt.subplots()
