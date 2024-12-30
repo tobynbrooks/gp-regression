@@ -138,3 +138,41 @@ ax.set_xlabel('Variable')
 ax.set_ylabel('Gross Profit')
 ax.legend()
 st.pyplot(fig)
+
+# -----------------------------
+# 📊 CORRELATION HEATMAP
+# -----------------------------
+st.write("---")
+st.write("### 🔗 Correlation Heatmap")
+
+import seaborn as sns
+
+# Calculate Correlation Matrix
+correlation_matrix = data.corr()
+
+# Plot Heatmap
+fig, ax = plt.subplots(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
+ax.set_title('Correlation Heatmap Between Variables')
+
+# Display Heatmap
+st.pyplot(fig)
+
+# 📑 Add Explanation
+with st.expander("❓ **What does this mean?** Click to learn more"):
+    st.markdown("""
+    - A **correlation coefficient (r)** measures the strength and direction of the relationship between two variables.  
+    - **Range:** `-1` (strong negative correlation) to `+1` (strong positive correlation).  
+    - **Close to 1:** Strong positive correlation (e.g., both increase together).  
+    - **Close to -1:** Strong negative correlation (e.g., one decreases as the other increases).  
+    - **Close to 0:** Weak or no correlation.  
+    """)
+
+# Provide Quick Insights
+if correlation_matrix.loc['Variable', 'Gross Profit'] > 0.7:
+    st.success("✅ **Strong Positive Correlation Detected!**")
+elif correlation_matrix.loc['Variable', 'Gross Profit'] < -0.7:
+    st.warning("⚠️ **Strong Negative Correlation Detected!**")
+else:
+    st.info("ℹ️ **Weak or Moderate Correlation Observed.**")
+
